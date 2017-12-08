@@ -1,19 +1,32 @@
 import { combineReducers } from 'redux';
  
-import { DATA_AVAILABLE, SELECTED_DATA_AVAILABLE } from "../actions/"
-import { SINGLE_DATA_AVAILABLE } from "../actions"
+import { DATA_AVAILABLE, SELECT_DATA, SET_LOADING } from "../actions/"
  
-let dataState = { data: [], loading:true, currency:'USD' };
+let dataState = { data: [], selectedId: undefined, selectedData: {}, loading:true, currency:'USD' };
  
+const dataSelector = (data,selectedId) => {
+    var selectedData = {};
+    for (var i = 0; i < data.length; i++)
+        if (data[i].id == selectedId) {
+            selectedData = data[i];
+            break;
+        }
+    return selectedData;
+};
+
 const dataReducer = (state = dataState, action) => {
     switch (action.type) {
         case DATA_AVAILABLE:
-            console.log('DATA_AVAILABLE');
-            state = Object.assign({}, state, { data: action.data, loading:false, currency: action.currency });
+            var selectedData = dataSelector(action.data, state.selectedId);
+            console.log(selectedData);
+            state = Object.assign({}, state, { data: action.data, selectedId: action.selectedId, selectedData: selectedData, loading:false, currency: action.currency });
             return state;
-        case SELECTED_DATA_AVAILABLE:
-            console.log('SELECTED_DATA_AVAILABLE');
-            state = Object.assign({}, state, { selectedData: action.data, loading:false, currency: action.currency });
+        case SELECT_DATA:
+            var selectedData = dataSelector(state.data, action.selectedId);
+            state = Object.assign({}, state, { selectedId: action.selectedId, selectedData: selectedData });
+            return state;
+        case SET_LOADING:
+            state = Object.assign({}, state, { loading: action.loading });
             return state;
         default:
             return state;
@@ -22,8 +35,7 @@ const dataReducer = (state = dataState, action) => {
  
 // Combine all the reducers
 const rootReducer = combineReducers({
-    dataReducer
-    // ,[ANOTHER REDUCER], [ANOTHER REDUCER] ....
+    dataReducer    
 })
  
 export default rootReducer;

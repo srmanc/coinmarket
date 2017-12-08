@@ -13,6 +13,7 @@ import {
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
+import Styles from '../styles';
  
 class Home extends Component {
 	constructor(props) {
@@ -25,19 +26,19 @@ class Home extends Component {
     }
  
     componentDidMount() {
-        this.props.getData(this.props.currency); //call our action	
+        this.props.getData(this.props.currency);
     }
  
     render() {
         if (this.props.loading) {
             return (
-                <View style={styles.activityIndicatorContainer}>
+                <View style={Styles.progress}>
                     <ActivityIndicator animating={true} size="large" />
                 </View>
             );
         } else {
 			return (
-                <View style={{flex:1, backgroundColor: '#F5F5F5'}}>
+                <View>
                     <ListView enableEmptySections={true}
                               dataSource={this.state.ds.cloneWithRows(this.props.data)}
                               renderRow={this.renderRow.bind(this)} />
@@ -49,26 +50,17 @@ class Home extends Component {
     renderRow(rowData, sectionID, rowID) {
 		let price = rowData['price_'+this.props.currency.toLowerCase()];
         return (
-		  <TouchableHighlight onPress={() => this.props.onPress(rowID)}>
-		    <View style={styles.row}>
-                <Text style={styles.title}>
-                    {rowData.rank}{". "}{rowData.symbol}
-                </Text>
-                <Text style={styles.description}>
-                    {price}{" "}{this.props.currency.toUpperCase()}
-                </Text>
-				<Text style={styles.description}>
-                    {"Changed last 24 h: "}{rowData.percent_change_24h}{"%"}
-                </Text>
+		  <TouchableHighlight onPress={() => this.props.onPress(rowData.id)}>
+		    <View style={Styles.item}>        
+                <Text style={Styles.title}>{rowData.rank + ". " + rowData.symbol}</Text>
+                <Text>{price + " " + this.props.currency.toUpperCase()}</Text>
+				<Text>{"Changed last 24 h: " + rowData.percent_change_24h + "%"}</Text>
             </View>	
 		  </TouchableHighlight>	
         )
     }
 };
  
-// The function takes data from the app current state,
-// and insert/links it into the props of our component.
-// This function makes Redux know that this component needs to be passed a piece of the state
 function mapStateToProps(state, props) {
     return {
         loading: state.dataReducer.loading,
@@ -77,38 +69,8 @@ function mapStateToProps(state, props) {
     }
 }
  
-// Doing this merges our actions into the component’s props,
-// while wrapping them in dispatch() so that they immediately dispatch an Action.
-// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(Actions, dispatch);
 }
  
-//Connect everything
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
- 
-var styles = StyleSheet.create({
-    activityIndicatorContainer:{
-        backgroundColor: "#fff",
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1
-    },
- 
-    row:{
-        borderBottomWidth: 1,
-        borderColor: "#ccc",
-        // height: 50,
-        padding: 10
-    },
- 
-    title:{
-        fontSize: 15,
-        fontWeight: "600"
-    },
- 
-    description:{
-        marginTop: 5,
-        fontSize: 14,
-    }
-});

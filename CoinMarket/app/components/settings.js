@@ -9,8 +9,7 @@ class Settings extends Component {
     super(props);
   }
   
-  state = {currency: this.props.currency}  
-   
+  state = {currency: this.props.currency}     
   updateCurrency = (currency) => {
 	  this.setState({currency : currency});	  
   }
