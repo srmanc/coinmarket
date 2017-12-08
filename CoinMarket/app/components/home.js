@@ -54,7 +54,7 @@ class Home extends Component {
 	    <View style={Styles.item}>        
           <Text style={Styles.title}>{rowData.rank + ". " + rowData.symbol}</Text>
           <Text>{price + " " + this.props.currency.toUpperCase()}</Text>
-		  <Text>{"Changed last 24 h: " + rowData.percent_change_24h + "%"}</Text>
+          <Text>{"Changed last 24 h: " + rowData.percent_change_24h + "%"}</Text>
         </View>	
 	  </TouchableHighlight>	
     )

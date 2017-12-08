@@ -32,11 +32,11 @@ class Settings extends Component {
     return (
 	    <View >
         <Text>Select currency:</Text>
-		  <Picker
-        selectedValue={this.state.currency}
-		    onValueChange={this.updateCurrency}>
-		    {pickerItems}
-      </Picker>
+        <Picker
+          selectedValue={this.state.currency}
+          onValueChange={this.updateCurrency}>
+          {pickerItems}
+        </Picker>		  
       </View>
     );
   } 

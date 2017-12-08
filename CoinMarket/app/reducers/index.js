@@ -17,8 +17,7 @@ const dataSelector = (data,selectedId) => {
 const dataReducer = (state = dataState, action) => {
   switch (action.type) {
     case DATA_AVAILABLE:
-      var selectedData = dataSelector(action.data, state.selectedId);
-      console.log(selectedData);
+      var selectedData = dataSelector(action.data, state.selectedId);      
       state = Object.assign({}, state, { data: action.data, selectedId: action.selectedId, selectedData: selectedData, loading:false, currency: action.currency });
       return state;
     case SELECT_DATA:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry, Text, Button } from 'react-native';
+import { AppRegistry, Text, Button, Platform } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import { Provider } from 'react-redux';
 import Store from './app/store'; 
@@ -7,6 +7,7 @@ import Home from './app/components/home';
 import Settings from './app/components/settings';
 import CoinInfo from './app/components/coin';
 import Styles from './app/styles';
+import Expo from 'expo';
 
 class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
