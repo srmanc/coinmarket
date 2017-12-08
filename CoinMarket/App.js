@@ -11,7 +11,7 @@ import Expo from 'expo';
 
 class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'CoinMarket Top 100',    
+    title: 'CoinMarket',    
     headerRight: <Button title='Settings' onPress={()=>{ navigation.navigate('Settings', { parent: 'HomeScreen' }); }}></Button>,
   });
   render() {
