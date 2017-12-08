@@ -17,7 +17,6 @@ class Settings extends Component {
   componentWillUnmount() {	  
     if (this.props.currency.localeCompare(this.state.currency) != 0)
       this.props.getData(this.state.currency);
-      //this.props.changeCurrency(this.state.currency);
   }
     
   render() {
